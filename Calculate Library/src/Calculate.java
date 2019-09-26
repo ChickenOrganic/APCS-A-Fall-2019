@@ -111,20 +111,27 @@ public class Calculate {
 		return minimum;
 	}
 	// rounds a double correctly to 2 decimal places 
-	public static double round2(double input) {
-		double answer;
-		answer= (input);
-		return answer;
+	public static double round2(double num) {
+		num = (num * 100);
+		if (num<0) {
+			num=(num-0.5);
+			num=(int)num;
+		}
+		else {
+			num=(num+0.5);
+			num=(int)num;
+		}
+		return num/100;
 	}
-	// 
+	// raises a value to a positive integer
 	public static double exponent(double integer, int power) {
 		double answer = 0;
-		for(int i = 0; i < power; i++) {
-			answer = integer * integer;
+		for(int i=0;i<power; i++) {
+			answer=integer*integer;
 			}
 			return answer; 
 	}
-	//
+	//returns the factorial of the value passed
 	public static int factorial (int num) {
 		if (num<=0)throw new IllegalArgumentException("no factorial of value");
 		int answer=num;
@@ -133,7 +140,7 @@ public class Calculate {
 		}
 		return answer;
 		}
-	//
+	//determines whether or not an integer is prime
 	public static boolean isPrime (int num) {
 		for (int i=num-1; i>1; i--) {
 			if (isDivisibleBy(num, i)) {
@@ -141,5 +148,47 @@ public class Calculate {
 			}
 		}
 		return true;
+}
+	//finds the greatest common factor of two integers
+public static int gcf(int integer1, int integer2) {
+	int commonFactor = 1;
+	double bigger = max(integer1, integer2);
+	double smaller = min(integer1, integer2);
+	for (int i = 1; i <= (int)bigger; i++) {
+		if (isDivisibleBy((int)bigger, i) == true) {
+			if (isDivisibleBy((int)smaller, i) == true) {
+				commonFactor = i;
+			}
+		}
+	}
+	return commonFactor;
+}
+	//returns an approximation of the square root of the value passed, rounded to two decimal places
+public static double sqrt(double num) {
+	double educatedGuess = num / 2;
+	if (num < 0) {
+		throw new IllegalArgumentException("Number must be greater than 0");
+	}
+	while (((educatedGuess*educatedGuess)-num)>=.005||((educatedGuess*educatedGuess)-num)<=-.005) {
+		educatedGuess=0.5*(num/educatedGuess+educatedGuess);
+	}
+	return round2(educatedGuess);
+}
+	//uses coefficients of a quadratic equation in standard form and uses the quadratic formula to approximate real roots if any.
+public static String quadForm(int a, int b, int c) {
+	double root1=0;
+	double root2=0;
+	if (discriminant(a, b, c) < 0) {
+		return "no real roots";
+	}
+	else if (discriminant(a, b, c) > 0) {
+		root1=(-b+sqrt(discriminant(a, b, c)))/(2 * a);
+		root2=(-b-sqrt(discriminant(a, b, c)))/(2 * a);
+		return round2(root1)+"and"+round2(root2);
+	}
+	else {
+		root1 = -b / (2 * a);
+		return round2(root1)+"";
+	}
 }
 }
