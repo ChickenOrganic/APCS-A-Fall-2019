@@ -143,4 +143,3 @@ public class Calculate {
 		return true;
 }
 }
-
